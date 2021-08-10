@@ -1,0 +1,39 @@
+{
+  "name": "bible-crawler",
+  "version": "0.0.1",
+  "description": "A module to read, extract and storage bible data from websites.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --declaration",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "test": "mocha -r ts-node/register **/*.test.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucaslannes/bible-crawler.git"
+  },
+  "author": "Lucas Lannes",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/lucaslannes/bible-crawler/issues"
+  },
+  "homepage": "https://github.com/lucaslannes/bible-crawler#readme",
+  "devDependencies": {
+    "@types/chai": "^4.2.21",
+    "@types/mocha": "^9.0.0",
+    "@types/mocha-each": "^2.0.0",
+    "@types/node": "^16.4.12",
+    "chai": "^4.3.4",
+    "mocha": "^9.0.3",
+    "mocha-each": "^2.0.1",
+    "ts-node": "^10.1.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "@types/jsdom": "^16.2.13",
+    "cross-fetch": "^3.1.4",
+    "jsdom": "^16.7.0"
+  }
+}
