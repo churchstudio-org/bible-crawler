@@ -1,8 +1,9 @@
 export { BookOf, BookTitle } from './constants/books';
 export { ChaptersOf } from './constants/chapters';
 
-export { BaseCrawler } from './core/base.crawler';
 export { IBibleCrawler } from './core/bible-crawler.interface';
+export { BaseCrawler } from './core/base.crawler';
+export { BibliaLivreCrawler } from './core/biblia-livre.crawler';
 export { Just1WordCrawler } from './core/just-1-word.crawler';
 export { WordProjectCrawler } from './core/word-project.crawler';
 
