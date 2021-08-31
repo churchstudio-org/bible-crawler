@@ -2,7 +2,6 @@ import { HtmlHelper } from "../helpers/html.helper";
 import { BibleVersions, Language } from "../types";
 import { BaseCrawler } from "./base.crawler";
 
-import fetch from 'cross-fetch';
 import { BookOf } from "../constants/books";
 
 export class WordProjectCrawler extends BaseCrawler {
@@ -24,23 +23,21 @@ export class WordProjectCrawler extends BaseCrawler {
       .replace('chapter', `${chapter ?? '1'}`);
   }
 
-  override async title(book: BookOf, language: Language = 'en_US'): Promise<string> {
+  override async title(book: BookOf, language: Language = 'ja_JP'): Promise<string> {
     var url = this.formatUrl(this.bibles[language]!, book);
-    var response = await fetch(url).then(e => e.text());
-    var html = HtmlHelper.parse(response);
+    var document = await HtmlHelper.load(url);
 
-    return html
+    return document
       .querySelector('.textHeader h1')!
       .textContent!
       .trim();
   }
 
-  override async read(book: BookOf, chapter: number, language: Language = 'en_US'): Promise<string[]> {
+  override async read(book: BookOf, chapter: number, language: Language = 'ja_JP'): Promise<string[]> {
     var url = this.formatUrl(this.bibles[language]!, book, chapter);
-    var response = await fetch(url).then(e => e.text());
-    var html = HtmlHelper.parse(response);
+    var document = await HtmlHelper.load(url);
 
-    return html
+    return document
       .querySelector('.textBody p')!
       .innerHTML
       .split('<br>')

@@ -2,23 +2,25 @@ import { expect } from 'chai';
 import forEach from 'mocha-each';
 import { BookOf, BookTitle } from '../src/constants/books';
 import { ChaptersOf } from '../src/constants/chapters';
-import { BibliaLivreCrawler } from '../src/core/biblia-livre.crawler';
+import { WordProjectCrawler } from '../src/core/word-project.crawler';
+import { Language } from '../src/types';
 
-var crawler = new BibliaLivreCrawler();
+var crawler = new WordProjectCrawler();
+var defaultLanguage = Object.keys(crawler.languages)[0] as Language;
 
 describe(`${crawler.name} - ${crawler.website}`, () => {
-    it('First book of bible is Genesis (english)', async () => {
-        var genesis = await crawler.title(BookOf.Genesis);
+    it.skip('First book of bible is Genesis (english)', async () => {
+        var genesis = await crawler.title(BookOf.Genesis, 'en_US');
         expect(genesis).is.equal('Genesis');
     });
 
-    it('First book of bible is Gênesis (portuguese)', async () => {
+    it.skip('First book of bible is Gênesis (portuguese)', async () => {
         var genesis = await crawler.title(BookOf.Genesis, 'pt_BR');
         expect(genesis).is.equal('Gênesis');
     }).timeout(5000);
 
-    it('Read chapter 1 of Genesis (english)', async () => {
-        var genesis1 = await crawler.read(BookOf.Genesis, 1);
+    it.skip('Read chapter 1 of Genesis (english)', async () => {
+        var genesis1 = await crawler.read(BookOf.Genesis, 1, 'en_US');
 
         expect(genesis1).is.not.empty;
         expect(genesis1[0]).is.equal('In the beginning God created the heaven and the earth.');
@@ -38,22 +40,22 @@ describe(`${crawler.name} - ${crawler.website}`, () => {
     });
 
     it('Read all chapters of Esther', async () => {
-        var chapters = await crawler.readAllChapters(BookOf.Esther);
+        var chapters = await crawler.readAllChapters(BookOf.Esther, defaultLanguage);
         expect(chapters).lengthOf(10);
     }).timeout(crawler.delay * 10 * 2);
 
     it('Read Psalms 119', async () => {
-        var psalms119 = await crawler.read(BookOf.Psalms, 119, 'pt_BR');
+        var psalms119 = await crawler.read(BookOf.Psalms, 119);
         expect(psalms119).lengthOf(176);
     }).timeout(10000);
 
     it('Read Exodus 7', async () => {
-        var exodus7 = await crawler.read(BookOf.Exodus, 7, 'pt_BR');
+        var exodus7 = await crawler.read(BookOf.Exodus, 7);
         expect(exodus7).lengthOf(25);
     }).timeout(crawler.delay * 40 * 2);
 
     it('Read first chapter of 1 Samuel', async () => {
-        var text = await crawler.read(BookOf.Samuel1, 1, 'pt_BR');
+        var text = await crawler.read(BookOf.Samuel1, 1);
         expect(text).lengthOf(28);
     });
 
@@ -62,16 +64,16 @@ describe(`${crawler.name} - ${crawler.website}`, () => {
             .entries(BookOf)
             .slice(0, BookOf.Revelation)
             .map(e => [e[1], parseInt(e[0])])
-    ).it.only('Read %s', async function(book: BookTitle, index: number) {
+    ).it.skip('Read %s', async function(book: BookTitle, index: number) {
         this.timeout(crawler.delay * ChaptersOf[book] * 2);
         
-        var chapters = await crawler.readAllChapters(index);
+        var chapters = await crawler.readAllChapters(index, defaultLanguage);
 
         expect(chapters).lengthOf(ChaptersOf[book]);
     });
 
-    it('Read Bible from start to end', async () => {
-        var bible = await crawler.readAllBooks('pt_BR');
+    it.skip('Read Bible from start to end', async () => {
+        var bible = await crawler.readAllBooks(defaultLanguage);
         var chapters = [].concat.apply([], bible as any[]);
         
         expect(bible).lengthOf(66);

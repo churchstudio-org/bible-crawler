@@ -2,7 +2,6 @@ import { BookOf, BookTitle, DelayHelper } from "..";
 import { BibleVersions, Language } from "../types";
 import { BaseCrawler } from "./base.crawler";
 
-import fetch from 'cross-fetch';
 import { HtmlHelper } from "../helpers/html.helper";
 import { ChaptersOf } from "../constants/chapters";
 
@@ -17,12 +16,11 @@ export class BibliaLivreCrawler extends BaseCrawler {
     books: string[] = [];
 
     async load() {
-        var response = await fetch(this.bibles.pt_BR!).then(e => e.text());
-        var html = HtmlHelper.parse(response);
+        var document = await HtmlHelper.load(this.bibles.pt_BR!);
 
-        this.books = Array.from(html
-            .querySelectorAll<HTMLLinkElement>('.sites-layout-tile a'))
-            .map(e => e.href);
+        this.books = Array.from(document
+            .querySelectorAll('.sites-layout-tile a'))
+            .map(e => e.getAttribute('href')!);
     }
 
     async title(book: BookOf, _: Language = 'pt_BR'): Promise<string> {
@@ -30,30 +28,28 @@ export class BibliaLivreCrawler extends BaseCrawler {
             await this.load();
 
         var url = this.books[book - 1];
-        var response = await fetch(url).then(e => e.text());
-        var html = HtmlHelper.parse(response);
+        var document = await HtmlHelper.load(url);
 
-        return html
+        return document
             .querySelector('#sites-page-title')!
             .textContent!;
     }
 
     async pages(book: BookOf): Promise<string[]> {
         var url = this.books[book - 1];
-        var response = await fetch(url).then(e => e.text());
-        var html = HtmlHelper.parse(response);
+        var document = await HtmlHelper.load(url);
         
-        return Array.from(html
-            .querySelectorAll<HTMLLinkElement>('.sites-layout-tile a'))
-            .map(e => e.href);
+        return Array.from(document
+            .querySelectorAll('.sites-layout-tile a'))
+            .map(e => e.getAttribute('href')!);
     }
     
-    async read(book: BookOf, chapter: number, ___: Language = 'pt_BR'): Promise<string[]> {
+    async read(book: BookOf, chapter: number, _: Language = 'pt_BR'): Promise<string[]> {
         var chapters = await this.readAllChapters(book);
         return chapters[chapter - 1];
     }
 
-    override async readAllChapters(book: BookOf, _: Language = 'en_US'): Promise<string[][]> {
+    override async readAllChapters(book: BookOf, _: Language = 'pt_BR'): Promise<string[][]> {
         if (this.books.length == 0)
             await this.load();
 

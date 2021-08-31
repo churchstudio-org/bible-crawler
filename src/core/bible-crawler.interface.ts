@@ -9,8 +9,8 @@ export interface IBibleCrawler {
     delay: number;
     
     languages(): Language[];
-    title(book: BookOf, language?: Language): Promise<string>;
-    read(book: BookOf, chapter: number, language?: Language): Promise<string[]>;
-    readAllChapters(book: BookOf, language?: Language): Promise<string[][]>;
-    readAllBooks(language?: Language): Promise<string[][][]>;
+    title(book: BookOf, language: Language): Promise<string>;
+    read(book: BookOf, chapter: number, language: Language): Promise<string[]>;
+    readAllChapters(book: BookOf, language: Language): Promise<string[][]>;
+    readAllBooks(language: Language): Promise<string[][][]>;
 }

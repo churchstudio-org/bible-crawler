@@ -12,14 +12,14 @@ export abstract class BaseCrawler implements IBibleCrawler {
     abstract website: string;
     abstract bibles: BibleVersions;
 
-    abstract title(book: BookOf, language?: Language): Promise<string>;
-    abstract read(book: BookOf, chapter: number, language?: Language): Promise<string[]>;
+    abstract title(book: BookOf, language: Language): Promise<string>;
+    abstract read(book: BookOf, chapter: number, language: Language): Promise<string[]>;
 
     languages(): Language[] {
         return Object.keys(this.bibles) as Language[];
     }
     
-    async readAllChapters(book: BookOf, language: Language = 'en_US'): Promise<string[][]> {
+    async readAllChapters(book: BookOf, language: Language): Promise<string[][]> {
         var length = ChaptersOf[BookOf[book] as BookTitle];
         var chapters = [];
 
@@ -31,7 +31,7 @@ export abstract class BaseCrawler implements IBibleCrawler {
         return chapters;
     }
 
-    async readAllBooks(language: Language = 'en_US'): Promise<string[][][]> {
+    async readAllBooks(language: Language): Promise<string[][][]> {
         var books = Object
             .keys(BookOf)
             .slice(0, BookOf.Revelation)
