@@ -3,15 +3,20 @@ import forEach from 'mocha-each';
 import { BookOf, BookTitle } from '../src/constants/books';
 import { ChaptersOf } from '../src/constants/chapters';
 import { VersesOf } from '../src/constants/verses';
-import { Just1Word } from '../src/core/just-1-word.crawler';
+import { BibliaLivreCrawler } from '../src/core/biblia-livre.crawler';
 
-var crawler = new Just1Word();
+var crawler = new BibliaLivreCrawler();
 
-describe(crawler.attribution, () => {
+describe(`${crawler.name} - ${crawler.website}`, () => {
     it('First book of bible is Genesis (english)', async () => {
         var genesis = await crawler.title(BookOf.Genesis);
         expect(genesis).is.equal('Genesis');
     });
+
+    it('First book of bible is Gênesis (portuguese)', async () => {
+        var genesis = await crawler.title(BookOf.Genesis, 'pt_BR');
+        expect(genesis).is.equal('Gênesis');
+    }).timeout(5000);
 
     it('Read chapter 1 of Genesis (english)', async () => {
         var genesis1 = await crawler.read(BookOf.Genesis, 1);
@@ -41,7 +46,12 @@ describe(crawler.attribution, () => {
     it('Read Psalms 119', async () => {
         var psalms119 = await crawler.read(BookOf.Psalms, 119, 'pt_BR');
         expect(psalms119).lengthOf(176);
-    });
+    }).timeout(10000);
+
+    it('Read Exodus 7', async () => {
+        var exodus7 = await crawler.read(BookOf.Exodus, 7, 'pt_BR');
+        expect(exodus7).lengthOf(25);
+    }).timeout(crawler.delay * 40 * 2);
 
     it('Read first chapter of 1 Samuel', async () => {
         var text = await crawler.read(BookOf.Samuel1, 1, 'pt_BR');
@@ -53,7 +63,7 @@ describe(crawler.attribution, () => {
             .entries(BookOf)
             .slice(0, BookOf.Revelation)
             .map(e => [e[1], parseInt(e[0])])
-    ).it.skip('Read %s', async function(book: BookTitle, index: number) {
+    ).it.only('Read %s', async function(book: BookTitle, index: number) {
         this.timeout(crawler.delay * ChaptersOf[book] * 2);
         
         var chapters = await crawler.readAllChapters(index);
@@ -63,7 +73,7 @@ describe(crawler.attribution, () => {
         expect(verses).lengthOf(VersesOf[book]);
     });
 
-    it.skip('Read Bible from start to end', async () => {
+    it('Read Bible from start to end', async () => {
         var bible = await crawler.readAllBooks('pt_BR');
         var chapters = [].concat.apply([], bible as any[]);
         

@@ -2,6 +2,7 @@ import { BookOf } from "../constants/books";
 import { BibleVersions, Language } from "../types";
 
 export interface IBibleCrawler {
+    name: string;
     attribution: string;
     website: string;
     bibles: BibleVersions;

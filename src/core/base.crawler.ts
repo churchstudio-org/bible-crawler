@@ -5,13 +5,14 @@ import { BibleVersions, Language } from "../types";
 import { IBibleCrawler } from "./bible-crawler.interface";
 
 export abstract class BaseCrawler implements IBibleCrawler {
-    attribution: string = '';
-    website: string = '';
-    bibles: BibleVersions = {};
     delay: number = 2500;
 
+    abstract name: string;
+    abstract attribution: string;
+    abstract website: string;
+    abstract bibles: BibleVersions;
+
     abstract title(book: BookOf, language?: Language): Promise<string>;
-    
     abstract read(book: BookOf, chapter: number, language?: Language): Promise<string[]>;
 
     languages(): Language[] {

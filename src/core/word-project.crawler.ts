@@ -6,6 +6,7 @@ import fetch from 'cross-fetch';
 import { BookOf } from "../constants/books";
 
 export class WordProjectCrawler extends BaseCrawler {
+  name: string = 'Wordproject';
   attribution: string = 'Wordproject®';
   website: string = 'https://wordproject.org/';
   

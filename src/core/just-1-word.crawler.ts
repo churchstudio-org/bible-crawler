@@ -5,13 +5,15 @@ import { BaseCrawler } from "./base.crawler";
 import fetch from 'cross-fetch';
 import { BookOf } from "../constants/books";
 
-export class Just1Word extends BaseCrawler {
+export class Just1WordCrawler extends BaseCrawler {
+    name: string = 'Just1Word';
     attribution: string = '©2009 Just1Word, Inc. All rights reserved.';
     website: string = 'https://www.just1word.com/';
 
     bibles: BibleVersions = {
         en_US: 'https://www.just1word.com/kjv/book/chapter',
         ja_JP: 'https://www.just1word.com/kou/book/chapter',
+        ko_KR: 'https://www.just1word.com/kor/book/chapter',
         pt_BR: 'https://www.just1word.com/aa/book/chapter',
     };
 
