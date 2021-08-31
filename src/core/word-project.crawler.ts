@@ -11,10 +11,8 @@ export class WordProjectCrawler extends BaseCrawler {
   website: string = 'https://wordproject.org/';
   
   bibles: BibleVersions = {
-    en_US: 'https://www.wordproject.org/bibles/kj/book/chapter.htm',
     ja_JP: 'https://www.wordproject.org/bibles/jp/book/chapter.htm',
     ko_KR: 'https://www.wordproject.org/bibles/kr/book/chapter.htm',
-    pt_BR: 'https://www.wordproject.org/bibles/po-BR/book/chapter.htm',
   };
 
   formatUrl(url: string, book: number, chapter?: number): string {
