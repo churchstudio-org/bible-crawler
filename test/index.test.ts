@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import forEach from 'mocha-each';
 import { BookOf, BookTitle } from '../src/constants/books';
 import { ChaptersOf } from '../src/constants/chapters';
-import { VersesOf } from '../src/constants/verses';
 import { BibliaLivreCrawler } from '../src/core/biblia-livre.crawler';
 
 var crawler = new BibliaLivreCrawler();
@@ -67,10 +66,8 @@ describe(`${crawler.name} - ${crawler.website}`, () => {
         this.timeout(crawler.delay * ChaptersOf[book] * 2);
         
         var chapters = await crawler.readAllChapters(index);
-        var verses = [].concat.apply([], chapters as any[]);
 
         expect(chapters).lengthOf(ChaptersOf[book]);
-        expect(verses).lengthOf(VersesOf[book]);
     });
 
     it('Read Bible from start to end', async () => {

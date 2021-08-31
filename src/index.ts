@@ -1,6 +1,5 @@
 export { BookOf, BookTitle } from './constants/books';
 export { ChaptersOf } from './constants/chapters';
-export { VersesOf } from './constants/verses';
 
 export { BaseCrawler } from './core/base.crawler';
 export { IBibleCrawler } from './core/bible-crawler.interface';
