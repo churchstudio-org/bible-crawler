@@ -13,7 +13,6 @@ export class Just1WordCrawler extends BaseCrawler {
     bibles: BibleVersions = {
         en_US: 'https://www.just1word.com/kjv/book/chapter',
         ja_JP: 'https://www.just1word.com/kou/book/chapter',
-        ko_KR: 'https://www.just1word.com/kor/book/chapter',
         pt_BR: 'https://www.just1word.com/aa/book/chapter',
     };
 
